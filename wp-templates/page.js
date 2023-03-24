@@ -75,9 +75,10 @@ export default function Component(props) {
 
 Component.variables = ({ databaseId }, ctx) => {
   const translatedLanguage = ctx?.locale === 'en' ? 'ES' : 'EN';
+  const localizedMenu = ctx?.locale === 'en' ? MENUS.PRIMARY_LOCATION : MENUS.PRIMARY_ES;
   return {
     databaseId,
-    headerLocation: MENUS.PRIMARY_LOCATION,
+    headerLocation: localizedMenu,
     footerLocation: MENUS.FOOTER_LOCATION,
     asPreview: ctx?.asPreview,
     language: translatedLanguage
