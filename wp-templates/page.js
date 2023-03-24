@@ -12,8 +12,12 @@ import {
   FeaturedImage,
   SEO,
 } from '../components';
-
+import { useRouter } from "next/router";
+import  Link  from  'next/link';
+ 
 export default function Component(props) {
+  const { locale: activeLocale, locales } = useRouter();
+
   // Loading state for previews
   if (props.loading) {
     return <>Loading...</>;
@@ -23,7 +27,9 @@ export default function Component(props) {
     props?.data?.generalSettings;
   const primaryMenu = props?.data?.headerMenuItems?.nodes ?? [];
   const footerMenu = props?.data?.footerMenuItems?.nodes ?? [];
-  const { title, content, featuredImage } = props?.data?.page ?? { title: '' };
+  console.log(props.data)
+  const { title, content, featuredImage, translation } = props?.data?.page ?? { title: '' };
+  console.log(props)
 
   return (
     <>
@@ -38,6 +44,23 @@ export default function Component(props) {
         menuItems={primaryMenu}
       />
       <Main>
+      <ul>
+          {activeLocale === 'en' ? (
+              <li>
+                <Link href={translation.uri} locale={'es'}>
+                  <a>ES</a>
+                </Link>
+              </li>
+              ) :
+              (
+                <li>
+                  <Link href={translation.uri} locale={'en'}>
+                    <a>EN</a>
+                  </Link>
+                </li>
+                )
+          }
+      </ul>
         <>
           <EntryHeader title={title} image={featuredImage?.node} />
           <Container>
@@ -51,11 +74,13 @@ export default function Component(props) {
 }
 
 Component.variables = ({ databaseId }, ctx) => {
+  const translatedLanguage = ctx?.locale === 'en' ? 'ES' : 'EN';
   return {
     databaseId,
     headerLocation: MENUS.PRIMARY_LOCATION,
     footerLocation: MENUS.FOOTER_LOCATION,
     asPreview: ctx?.asPreview,
+    language: translatedLanguage
   };
 };
 
@@ -68,10 +93,14 @@ Component.query = gql`
     $headerLocation: MenuLocationEnum
     $footerLocation: MenuLocationEnum
     $asPreview: Boolean = false
+    $language: LanguageCodeEnum!
   ) {
     page(id: $databaseId, idType: DATABASE_ID, asPreview: $asPreview) {
       title
       content
+      translation(language: $language) {
+        uri
+      }
       ...FeaturedImageFragment
     }
     generalSettings {

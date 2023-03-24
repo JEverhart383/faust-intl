@@ -66,7 +66,8 @@ Component.query = gql`
   }
 `;
 
-Component.variables = () => {
+Component.variables = (props, ctx) => {
+  console.log(ctx)
   return {
     headerLocation: MENUS.PRIMARY_LOCATION,
     footerLocation: MENUS.FOOTER_LOCATION,
