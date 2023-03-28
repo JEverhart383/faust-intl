@@ -12,8 +12,10 @@ import {
 } from '../components';
 
 export default function Component() {
+  const variables = Component.variables();
+  console.log(variables)
   const { data } = useQuery(Component.query, {
-    variables: Component.variables(),
+    variables: variables,
   });
 
   const { title: siteTitle, description: siteDescription } =
@@ -71,5 +73,6 @@ Component.variables = (props, ctx) => {
   return {
     headerLocation: MENUS.PRIMARY_LOCATION,
     footerLocation: MENUS.FOOTER_LOCATION,
+    language: ctx?.locale
   };
 };
