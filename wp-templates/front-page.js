@@ -11,12 +11,14 @@ import {
   SEO,
 } from '../components';
 
-export default function Component() {
-  const variables = Component.variables();
-  console.log(variables)
-  const { data } = useQuery(Component.query, {
-    variables: variables,
-  });
+export default function Component(props) {
+
+  // const variables = Component.variables();
+  // const { data } = useQuery(Component.query, {
+  //   variables: variables,
+  // });
+
+  const { data } = props;
 
   const { title: siteTitle, description: siteDescription } =
     data?.generalSettings;
@@ -37,6 +39,13 @@ export default function Component() {
           <div className="text-center">
             <p>This page is utilizing the "front-page" WordPress template.</p>
             <code>wp-templates/front-page.js</code>
+            {
+              data.posts.nodes.map(post => {
+                return (
+                  <h3>{post.title}</h3>
+                )
+              })
+            }
           </div>
         </Container>
       </Main>
@@ -51,7 +60,15 @@ Component.query = gql`
   query GetPageData(
     $headerLocation: MenuLocationEnum
     $footerLocation: MenuLocationEnum
+    $language: LanguageCodeFilterEnum!
   ) {
+      posts(where: {language:$language}){
+        nodes {
+          title
+          excerpt
+          uri
+        }
+      }
     generalSettings {
       ...BlogInfoFragment
     }
@@ -68,11 +85,12 @@ Component.query = gql`
   }
 `;
 
-Component.variables = (props, ctx) => {
+Component.variables = (seedNode, ctx) => {
+  const localizedMenu = ctx?.locale === 'en' ? MENUS.PRIMARY_LOCATION : MENUS.PRIMARY_ES;
   console.log(ctx)
   return {
-    headerLocation: MENUS.PRIMARY_LOCATION,
+    headerLocation: localizedMenu,
     footerLocation: MENUS.FOOTER_LOCATION,
-    language: ctx?.locale
+    language: ctx?.locale.toUpperCase()
   };
 };

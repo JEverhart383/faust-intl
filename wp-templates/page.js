@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import  Link  from  'next/link';
  
 export default function Component(props) {
+  console.log(props)
   const { locale: activeLocale, locales } = useRouter();
 
   // Loading state for previews
