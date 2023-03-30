@@ -14,10 +14,9 @@ import {
 import { getNextStaticProps } from '@faustwp/core';
 
 export default function Page(props) {
-    // const { data } = useQuery(Page.query, {
-    //     variables: Page.variables(props.ctx),
-    //   });
-    const { data } = props;
+    const { data } = useQuery(Page.query, {
+        variables: Page.variables(props.ctx),
+      });
 
   const {title, content} = data?.post;
 
@@ -41,7 +40,7 @@ export default function Page(props) {
   );
 }
 
-const query = gql`
+Page.query = gql`
   ${BlogInfoFragment}
   ${NavigationMenu.fragments.entry}
   query GetPageData(
@@ -69,27 +68,24 @@ const query = gql`
   }
 `;
 
-// Page.variables = (context) => {
-//   return {
-//     headerLocation: MENUS.PRIMARY_LOCATION,
-//     footerLocation: MENUS.FOOTER_LOCATION,
-//     slug: context.params.slug
-//   };
-// };
+Page.variables = (context) => {
+  console.log(context)
+  return {
+    headerLocation: MENUS.PRIMARY_LOCATION,
+    footerLocation: MENUS.FOOTER_LOCATION,
+    slug: context.params.slug
+  };
+};
 
 export async function getStaticProps(ctx) {
-  const apolloClient = getApolloClient();
-  const { data } = await apolloClient.query({
-    query: query,
-    variables: {
-        headerLocation: MENUS.PRIMARY_LOCATION,
-        footerLocation: MENUS.FOOTER_LOCATION,
-        slug: ctx.params.slug
-  }})
-  return {props : {
-    data
-    }};
-//   return getNextStaticProps(ctx, {Page, props: {data}});
+  
+  return getNextStaticProps(ctx, {Page, props: {
+    
+
+    ctx: {
+      params: ctx.params
+    }
+  }});
 }
 
 export function getStaticPaths(){

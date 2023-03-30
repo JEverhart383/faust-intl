@@ -29,6 +29,7 @@ export default function Component(props) {
   const footerMenu = props?.data?.footerMenuItems?.nodes ?? [];
   const { title, content, featuredImage, translation } = props?.data?.page ?? { title: '' };
 
+
   return (
     <>
       <SEO
@@ -60,7 +61,7 @@ export default function Component(props) {
           }
       </ul>
         <>
-          <EntryHeader title={title} image={featuredImage?.node} />
+          <EntryHeader title={`${title} en Español`} image={featuredImage?.node} />
           <Container>
             <ContentWrapper content={content} />
           </Container>
