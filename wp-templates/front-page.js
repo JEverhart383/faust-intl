@@ -37,7 +37,7 @@ export default function Component(props) {
         <Container>
           <Hero title={'Front Page'} />
           <div className="text-center">
-            <p>This page is utilizing the "front-page" WordPress template.</p>
+            <p>This page is utilizing the "front-page" WordPress template....</p>
             <code>wp-templates/front-page.js</code>
             {
               data.posts.nodes.map(post => {
