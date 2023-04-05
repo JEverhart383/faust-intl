@@ -8,6 +8,7 @@ export class LocaleTemplatePlugin {
           'seedQueryDocumentNode',
           'faust',
           (seedNode, context) => {
+            console.log(context)
             return gql`
               query GetNodeByUri($uri: String!) {
                 node: nodeByUri(uri: $uri) {

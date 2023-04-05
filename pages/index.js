@@ -4,6 +4,6 @@ export default function Page(props) {
   return <WordPressTemplate {...props} />;
 }
 
-export function getStaticProps(ctx) {
+export function getServerSideProps(ctx) {
   return getWordPressProps({ ctx });
 }
