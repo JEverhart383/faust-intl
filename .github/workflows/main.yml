@@ -5,6 +5,8 @@ on: [push]
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_WORDPRESS_URL: https://faustintl.wpengine.com/
     steps:
       - name: Checkout
         uses: actions/checkout@v3
