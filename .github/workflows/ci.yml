@@ -1,6 +1,6 @@
 name: ci
 # https://docs.github.com/en/actions/reference/events-that-trigger-workflows
-on: [push, deployment, deployment_status]
+on: [push, deployment, deployment_status, commit_comment, issue_comment, pull_request]
 jobs:
   show-event:
     runs-on: ubuntu-latest
