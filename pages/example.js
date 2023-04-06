@@ -75,5 +75,5 @@ Page.variables = () => {
 };
 
 export function getStaticProps(ctx) {
-  return getNextStaticProps(ctx, {Page, props: {title: 'File Page Example....'}});
+  return getNextStaticProps(ctx, {Page, props: {title: 'File Page Example.'}});
 }
