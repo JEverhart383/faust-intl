@@ -32,9 +32,8 @@ jobs:
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v5 # use the explicit version number
-        with:
-          build: npm run build
-          start: npm start
+        env:
+          CYPRESS_BASE_URL: ${{ steps.regex-match.outputs.match }}
       - uses: actions-ecosystem/action-create-comment@v1
         if: ${{ steps.regex-match.outputs.match != '' }}
         with:
