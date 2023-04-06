@@ -19,3 +19,4 @@ jobs:
       - env:
           OUTPUT: ${{needs.show-event.outputs.output1}}
         run: echo "$OUTPUT"
+
