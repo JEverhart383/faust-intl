@@ -13,11 +13,30 @@ jobs:
         with:
           text: ${{ github.event.comment.body }}
           regex: 'https:\/\/[a-z0-9]{25}\.js\.wpenginepowered.com'
-  echo-url:
-    needs: show-event
-    runs-on: ubuntu-latest
-    steps:
-      - env:
-          OUTPUT: ${{needs.show-event.outputs.output1}}
-        run: echo "$OUTPUT"
+      - uses: actions-ecosystem/action-create-comment@v1
+        if: ${{ steps.regex-match.outputs.match != '' }}
+        with:
+          github_token: ${{ secrets.github_token }}
+          body: |
+            We're testing your Atlas stuff here:
+            ---
+
+            ${{ steps.regex-match.outputs.match }}
+
+            ---
+      - name: Checkout
+        uses: actions/checkout@v3
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v5 # use the explicit version number
+        with:
+          build: npm run build
+          start: npm start
+      - uses: actions-ecosystem/action-create-comment@v1
+        if: ${{ steps.regex-match.outputs.match != '' }}
+        with:
+          github_token: ${{ secrets.github_token }}
+          body: |
+            We're done testing your Atlas stuff. Here are the results:
 
