@@ -1,11 +1,12 @@
 name: ci
 # https://docs.github.com/en/actions/reference/events-that-trigger-workflows
-on: [push, deployment, deployment_status, issue_comment]
+on: [issue_comment]
 jobs:
   show-event:
+    if: ${{github.event.comment.user.login == 'atlas-by-wp-engine[bot]'}}
     runs-on: ubuntu-latest
     steps:
       - name: Dump GitHub context
         env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
+          GITHUB_EVENT: ${{ toJson(github.event) }}
+        run: echo "$GITHUB_EVENT"
