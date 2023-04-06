@@ -31,6 +31,7 @@ jobs:
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
+        id: cypress
         uses: cypress-io/github-action@v5 # use the explicit version number
         env:
           CYPRESS_BASE_URL: ${{ steps.regex-match.outputs.match }}
@@ -40,4 +41,5 @@ jobs:
           github_token: ${{ secrets.github_token }}
           body: |
             We're done testing your Atlas stuff. Here are the results:
+            ${{ steps.cypress.outcome }}
 
