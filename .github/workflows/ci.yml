@@ -11,7 +11,7 @@ jobs:
       - id: step1
         env:
           GITHUB_EVENT: ${{ github.event.comment.body }}
-        run: echo "event=$GITHUB_EVENT" >> "$GITHUB_OUTPUT"
+        run: echo "event=test" >> "$GITHUB_OUTPUT"
   echo-url:
     needs: show-event
     runs-on: ubuntu-latest
