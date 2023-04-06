@@ -6,17 +6,13 @@ jobs:
     if: ${{github.event.comment.user.login == 'atlas-by-wp-engine[bot]' && contains(github.event.comment.body, ':white_check_mark:')}}
     runs-on: ubuntu-latest
     outputs:
-      output1: ${{ steps.step1.outputs.event }}
+      output1: ${{ steps.regex-match.outputs.event }}
     steps:
       - uses: actions-ecosystem/action-regex-match@v2
-          id: regex-match
-          with:
-            text: ${{ github.event.comment.body }}
-            regex: '^\[.*\]\((.*?)\).*\[(.*?)\]\((.*)\)'
-      - id: step1
-        needs: regex-match
-        env:
-          GITHUB_EVENT: ${{ github.event.comment.body }}
+        id: regex-match
+        with:
+          text: ${{ github.event.comment.body }}
+          regex: '^\[.*\]\((.*?)\).*\[(.*?)\]\((.*)\)'
         run: echo "event=${{ steps.regex-match.outputs.group2 }}" >> "$GITHUB_OUTPUT"
   echo-url:
     needs: show-event
