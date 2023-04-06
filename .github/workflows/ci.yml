@@ -12,6 +12,7 @@ jobs:
         env:
           GITHUB_EVENT: ${{ github.event.comment.body }}
         run: |
+          sudo apt-get install -y check
           [[$GITHUB_EVENT =~ '^\[.*\]\((.*?)\).*\[(.*?)\]\((.*)\)']]
           echo "event=${BASH_REMATCH[3]}" >> "$GITHUB_OUTPUT"
   echo-url:
