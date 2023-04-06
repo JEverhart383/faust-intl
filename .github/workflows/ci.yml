@@ -11,7 +11,9 @@ jobs:
       - id: step1
         env:
           GITHUB_EVENT: ${{ github.event.comment.body }}
-        run: echo "event=test" >> "$GITHUB_OUTPUT"
+        run: |
+          [[$GITHUB_EVENT =~ '^\[.*\]\((.*?)\).*\[(.*?)\]\((.*)\)']]
+          echo "event=${BASH_REMATCH[3]}" >> "$GITHUB_OUTPUT"
   echo-url:
     needs: show-event
     runs-on: ubuntu-latest
