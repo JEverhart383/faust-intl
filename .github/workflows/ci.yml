@@ -1,4 +1,4 @@
-name: ci
+name: PR Preview Test Runner
 # https://docs.github.com/en/actions/reference/events-that-trigger-workflows
 on: [issue_comment]
 jobs:
