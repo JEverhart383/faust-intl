@@ -34,7 +34,7 @@ export default function Page(props) {
         <Container>
           <Hero title={title} />
           <div className="text-center">
-            <p>This page is utilizing the Next.js File based routes.......</p>
+            <p>This page is utilizing the Next.js File based routes....</p>
             <code>pages/example.js</code>
           </div>
         </Container>
