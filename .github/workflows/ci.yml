@@ -42,5 +42,6 @@ jobs:
           body: |
             We're done testing your Atlas stuff. Here are the results:
             ${{ steps.cypress.outcome }}
+            [View Test Results](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
 
 
