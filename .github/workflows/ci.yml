@@ -41,7 +41,6 @@ jobs:
           github_token: ${{ secrets.github_token }}
           body: |
             We're done testing your Atlas stuff. Here are the results:
-            ${{ steps.cypress.summary }}
-            ${{ steps.cypress.outputs.dashboardUrl }}
-            ${{ steps.cypress.outputs.summary }}
+            ${{ steps.cypress.outcome }}
+
 
