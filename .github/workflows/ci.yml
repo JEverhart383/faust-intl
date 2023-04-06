@@ -10,7 +10,7 @@ jobs:
     steps:
       - id: step1
         env:
-          GITHUB_EVENT: ${{ toJson(github.event) }}
+          GITHUB_EVENT: ${{ github.event.comment.body }}
         run: echo "event=$GITHUB_EVENT" >> "$GITHUB_OUTPUT"
   echo-url:
     needs: show-event
