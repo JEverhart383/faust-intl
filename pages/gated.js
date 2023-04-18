@@ -1,79 +1,60 @@
-import { gql, useQuery } from '@apollo/client';
-import * as MENUS from '../constants/menus';
-import { BlogInfoFragment } from '../fragments/GeneralSettings';
-import {
-  Hero,
-  Footer,
-  Main,
-  Container,
-  NavigationMenu,
-  SEO,
-} from '../components';
-import { getNextStaticProps, getApolloAuthClient, useAuth } from '@faustwp/core';
+import { useAuth, getApolloAuthClient, useLogout } from "@faustwp/core";
+import { gql, useQuery } from "@apollo/client";
 
-export default function Page(props) {
-    const { isAuthenticated, isReady, loginUrl } = useAuth({
-        strategy: 'redirect',
-        shouldRedirect: false,
-      });   
+function AuthenticatedView() {
+  const client = getApolloAuthClient();
+  const { logout } = useLogout();
+  const { data, loading } = useQuery(
+    gql`
+      {
+        viewer {
+          posts {
+            nodes {
+              id
+              title
+            }
+          }
+          name
+        }
+      }
+    `,
+    { client }
+  );
 
-
-    if (isAuthenticated){
-        const client = getApolloAuthClient();
-        const { data } = useQuery(Page.query, {
-            variables: Page.variables(),
-            client
-        });
-        const title = props.title;
-    }
+  if (loading) {
+    return <>Loading...</>;
+  }
 
   return (
     <>
-      <SEO title={'gated'} description={'gated'} />
+      <p>Welcome {data?.viewer?.name}!</p>
+      <button onClick={() => logout("/")}>Jeff is Rad</button>
+      <p>My posts</p>
 
-      <Main>
-        <Container>
-          <Hero title={ 'Gated Content'} />
-          <div className="text-center">
-            <p>This page is utilizing the Next.js File based routes...</p>
-            <code>pages/example.js</code>
-            <p>{JSON.stringify(data)}</p>
-            <ul>
-                {data?.viewer?.posts?.nodes.map((post) => (
-                <li key={post.id}>{post.title}</li>
-                ))}
-            </ul>
-          </div>
-        </Container>
-      </Main>
+      <ul>
+        {data?.viewer?.posts?.nodes.map((post) => (
+          <li key={post.id}>{post.title}</li>
+        ))}
+      </ul>
     </>
   );
 }
 
-Page.query = gql`
-  query GetPageData {
-    viewer {
-        posts {
-          nodes {
-            id
-            title
-          }
-        }
-        name
-    }
+export default function Page(props) {
+  const { isAuthenticated, isReady, loginUrl } = useAuth();
+
+  if (!isReady) {
+    return <>Loading...</>;
   }
-`;
 
-Page.variables = () => {
-  return {
-    headerLocation: MENUS.PRIMARY_LOCATION,
-    footerLocation: MENUS.FOOTER_LOCATION
-  };
-};
+  if (isAuthenticated === true) {
+    return <AuthenticatedView />;
+  }
 
-export async function getStaticProps(ctx) {
-    const client = getApolloAuthClient();
-    const { data } = await client.query({query: Page.query});
-    console.log(data)
-  return getNextStaticProps(ctx, {Page, props: {title: 'File Page Example.'}});
+  return (
+    <>
+      <p>Welcome!</p>
+      <a href={loginUrl}>Login</a>
+    </>
+  );
 }
