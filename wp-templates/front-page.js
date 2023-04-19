@@ -13,10 +13,6 @@ import {
 
 export default function Component(props) {
 
-  // const variables = Component.variables();
-  // const { data } = useQuery(Component.query, {
-  //   variables: variables,
-  // });
 
   const { data } = props;
 

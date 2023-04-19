@@ -7,7 +7,8 @@
     "build": "faust build",
     "generate": "faust generatePossibleTypes",
     "start": "faust start",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "preinstall": "node preinstall.js"
   },
   "dependencies": {
     "@apollo/client": "^3.6.6",
@@ -24,5 +25,6 @@
   },
   "devDependencies": {
     "cypress": "^12.9.0"
-  }
+  },
+  "packageManager": "yarn@1.22.19"
 }

@@ -1,4 +1,5 @@
-import { gql } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
+import { getApolloAuthClient } from '@faustwp/core';
 import * as MENUS from '../constants/menus';
 import { BlogInfoFragment } from '../fragments/GeneralSettings';
 import {
@@ -28,6 +29,7 @@ export default function Component(props) {
   const primaryMenu = props?.data?.headerMenuItems?.nodes ?? [];
   const footerMenu = props?.data?.footerMenuItems?.nodes ?? [];
   const { title, content, featuredImage, translation } = props?.data?.page ?? { title: '' };
+  console.log(props)
 
 
   return (
@@ -102,6 +104,15 @@ Component.query = gql`
         uri
       }
       ...FeaturedImageFragment
+    }
+    viewer {
+      posts {
+        nodes {
+          id
+          title
+        }
+      }
+      name
     }
     generalSettings {
       ...BlogInfoFragment
