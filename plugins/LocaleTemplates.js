@@ -95,9 +95,9 @@ export class LocaleTemplatePlugin {
             'possibleTemplatesList',
             'faust',
             (possibleTemplates, context) => {
-              if (context?.seedNode?.language?.code === 'ES' && context?.seedNode?.__typename === 'Page' ) {
-                return Array.from(new Set(['es-page', ...possibleTemplates]));
-              }
+              // if (context?.seedNode?.language?.code === 'ES' && context?.seedNode?.__typename === 'Page' ) {
+              //   return Array.from(new Set(['es-page', ...possibleTemplates]));
+              // }
               return possibleTemplates
             },
           );

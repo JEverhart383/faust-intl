@@ -102,10 +102,15 @@ Component.query = gql`
   }
 `;
 
-Component.variables = ({ databaseId }, ctx) => {
+Component.variables = ({ databaseId, language }, ctx) => {
+  const menuLocations = {
+    'EN' : MENUS.PRIMARY_LOCATION,
+    'ES' : MENUS.PRIMARY_ES,
+    'DE' : MENUS.PRIMARY_DE
+  }
   return {
     databaseId,
-    headerLocation: MENUS.PRIMARY_LOCATION,
+    headerLocation: menuLocations[language.code],
     footerLocation: MENUS.FOOTER_LOCATION,
     asPreview: ctx?.asPreview,
   };

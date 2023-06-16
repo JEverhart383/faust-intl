@@ -92,8 +92,13 @@ Component.query = gql`
 `;
 
 Component.variables = (seedNode, ctx) => {
+  const menuLocations = {
+    'EN' : MENUS.PRIMARY_LOCATION,
+    'ES' : MENUS.PRIMARY_ES,
+    'DE' : MENUS.PRIMARY_DE
+  }
 
-  const localizedMenu = ctx?.locale === 'en' ? MENUS.PRIMARY_LOCATION : MENUS.PRIMARY_ES;
+  const localizedMenu = ctx?.locale ? menuLocations[ctx.locale.toUpperCase()] : MENUS.PRIMARY_LOCATION;
   return {
     headerLocation: localizedMenu,
     footerLocation: MENUS.FOOTER_LOCATION,

@@ -56,12 +56,17 @@ export default function Component(props) {
   );
 }
 
-Component.variables = ({ databaseId }, ctx) => {
+Component.variables = ({databaseId, language}, ctx) => {
+
+  const menuLocations = {
+    'EN' : MENUS.PRIMARY_LOCATION,
+    'ES' : MENUS.PRIMARY_ES,
+    'DE' : MENUS.PRIMARY_DE
+  }
   const translatedLanguage = ctx?.locale === 'en' ? 'ES' : 'EN';
-  const localizedMenu = ctx?.locale === 'en' ? MENUS.PRIMARY_LOCATION : MENUS.PRIMARY_ES;
   return {
     databaseId,
-    headerLocation: localizedMenu,
+    headerLocation: menuLocations[language.code],
     footerLocation: MENUS.FOOTER_LOCATION,
     asPreview: ctx?.asPreview,
     language: translatedLanguage
