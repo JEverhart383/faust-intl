@@ -10,9 +10,23 @@ export class LocaleTemplatePlugin {
           (seedNode, context) => {
             console.log(context)
             return gql`
-              query GetNodeByUri($uri: String!) {
-                node: nodeByUri(uri: $uri) {
-                  ...LangNodeByUri
+              query GetNodeByUri(
+                $id: ID = 0
+                $uri: String = ""
+                $asPreview: Boolean = false
+              ) {
+
+                ... on RootQuery @skip(if: $asPreview) {
+                  nodeByUri(uri: $uri) {
+                    __typename
+                    ...LangNodeByUri
+                  }
+                }
+                ... on RootQuery @include(if: $asPreview) {
+                  contentNode(id: $id, idType: DATABASE_ID, asPreview: true) {
+                    __typename
+                    ...LangNodeByUri
+                  }
                 }
               }
               fragment LangNodeByUri on UniformResourceIdentifiable {

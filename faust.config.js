@@ -9,7 +9,7 @@ import { LocaleTemplatePlugin } from './plugins/LocaleTemplates';
 export default setConfig({
   templates,
   experimentalPlugins: [
-    //  new LocaleTemplatePlugin()
+     new LocaleTemplatePlugin()
   ],
   experimentalToolbar: true,
   possibleTypes,

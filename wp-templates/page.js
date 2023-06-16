@@ -11,6 +11,7 @@ import {
   NavigationMenu,
   FeaturedImage,
   SEO,
+  PostTranslations
 } from '../components';
 import { useRouter } from "next/router";
 import  Link  from  'next/link';
@@ -42,21 +43,10 @@ export default function Component(props) {
         menuItems={primaryMenu}
       />
       <Main>
-      <ul>
-         {
-         translations.map(translation => {
-             return (<li>
-                <Link href={translation.uri} locale={translation.code.toLowerCase()}>
-                  <a>ES</a>
-                </Link>
-              </li>
-              ) 
-            })
-          }
-      </ul>
         <>
           <EntryHeader title={title} image={featuredImage?.node} />
           <Container>
+            <PostTranslations translations={translations}></PostTranslations>
             <ContentWrapper content={content} />
           </Container>
         </>
@@ -87,7 +77,6 @@ Component.query = gql`
     $headerLocation: MenuLocationEnum
     $footerLocation: MenuLocationEnum
     $asPreview: Boolean = false
-    $language: LanguageCodeEnum!
   ) {
     page(id: $databaseId, idType: DATABASE_ID, asPreview: $asPreview) {
       title
