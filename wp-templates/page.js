@@ -27,7 +27,7 @@ export default function Component(props) {
     props?.data?.generalSettings;
   const primaryMenu = props?.data?.headerMenuItems?.nodes ?? [];
   const footerMenu = props?.data?.footerMenuItems?.nodes ?? [];
-  const { title, content, featuredImage, translation } = props?.data?.page ?? { title: '' };
+  const { title, content, featuredImage, translations } = props?.data?.page ?? { title: '' };
 
   return (
     <>
@@ -43,20 +43,15 @@ export default function Component(props) {
       />
       <Main>
       <ul>
-          {activeLocale === 'en' ? (
-              <li>
-                <Link href={translation.uri} locale={'es'}>
+         {
+         translations.map(translation => {
+             return (<li>
+                <Link href={translation.uri} locale={translation.code.toLowerCase()}>
                   <a>ES</a>
                 </Link>
               </li>
-              ) :
-              (
-                <li>
-                  <Link href={translation.uri} locale={'en'}>
-                    <a>EN</a>
-                  </Link>
-                </li>
-                )
+              ) 
+            })
           }
       </ul>
         <>
@@ -97,8 +92,11 @@ Component.query = gql`
     page(id: $databaseId, idType: DATABASE_ID, asPreview: $asPreview) {
       title
       content
-      translation(language: $language) {
+      translations {
         uri
+        language {
+          code
+        }
       }
       ...FeaturedImageFragment
     }

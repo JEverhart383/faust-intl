@@ -28,9 +28,8 @@ function AuthenticatedView() {
   return (
     <>
       <p>Welcome {data?.viewer?.name}!</p>
-      <button onClick={() => logout("/")}>Jeff is Rad</button>
+      <button onClick={() => logout("/")}>Logout</button>
       <p>My posts</p>
-
       <ul>
         {data?.viewer?.posts?.nodes.map((post) => (
           <li key={post.id}>{post.title}</li>

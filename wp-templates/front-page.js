@@ -10,6 +10,7 @@ import {
   Hero,
   SEO,
 } from '../components';
+import Link from 'next/link';
 
 export default function Component(props) {
 
@@ -37,12 +38,17 @@ export default function Component(props) {
         <Container>
           <Hero title={'Front Page'} />
           <div className="text-center">
-            <p>This page is utilizing the "front-page" WordPress template....</p>
-            <code>wp-templates/front-page.js</code>
+            <p>Thanks for visiting Faust.js International. Do you need our posts in another language?</p>
+            <ul>
+            <a href='/' ><li>🇺🇸 English</li></a>
+             <a href='/es'><li>🇪🇸 Español</li></a>
+             <a href='/de' ><li>🇩🇪 Deutsch</li></a>
+            </ul>
+            <h3>Recent Posts</h3>
             {
               data.posts.nodes.map(post => {
                 return (
-                  <h3>{post.title}</h3>
+                  <Link href={post.uri}><h3>{post.title}</h3></Link>
                 )
               })
             }
@@ -86,6 +92,7 @@ Component.query = gql`
 `;
 
 Component.variables = (seedNode, ctx) => {
+
   const localizedMenu = ctx?.locale === 'en' ? MENUS.PRIMARY_LOCATION : MENUS.PRIMARY_ES;
   return {
     headerLocation: localizedMenu,

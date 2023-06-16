@@ -12,6 +12,7 @@ import {
   FeaturedImage,
   SEO,
 } from '../components';
+import Link from 'next/link';
 
 export default function Component(props) {
   // Loading state for previews
@@ -23,7 +24,7 @@ export default function Component(props) {
     props?.data?.generalSettings;
   const primaryMenu = props?.data?.headerMenuItems?.nodes ?? [];
   const footerMenu = props?.data?.footerMenuItems?.nodes ?? [];
-  const { title, content, featuredImage, date, author } = props.data.post;
+  const { title, content, featuredImage, date, author, translations } = props.data.post;
 
   return (
     <>
@@ -45,6 +46,18 @@ export default function Component(props) {
             date={date}
             author={author?.node?.name}
           />
+          <ul>
+            {
+            translations.map(translation => {
+                return (<li>
+                    <Link href={translation.uri} locale={translation.language.code.toLowerCase()}>
+                      <a>{translation.language.code}</a>
+                    </Link>
+                  </li>
+                  ) 
+                })
+              }
+          </ul>
           <Container>
             <ContentWrapper content={content} />
           </Container>
@@ -72,6 +85,12 @@ Component.query = gql`
       author {
         node {
           name
+        }
+      }
+      translations {
+        uri
+        language {
+          code
         }
       }
       ...FeaturedImageFragment
