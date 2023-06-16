@@ -90,7 +90,7 @@ export async function getStaticProps(ctx) {
 
 export function getStaticPaths(){
     return {
-        paths: ['/posts/testing'],
+        paths: [],
         fallback: false
     }
 }
