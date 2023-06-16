@@ -11,6 +11,7 @@ import {
   ContentWrapper,
   FeaturedImage,
   SEO,
+  PostTranslations,
 } from '../components';
 import Link from 'next/link';
 
@@ -46,20 +47,10 @@ export default function Component(props) {
             date={date}
             author={author?.node?.name}
           />
-          <ul>
-            {
-            translations.map(translation => {
-                return (<li>
-                    <Link href={translation.uri} locale={translation.language.code.toLowerCase()}>
-                      <a>{translation.language.code}</a>
-                    </Link>
-                  </li>
-                  ) 
-                })
-              }
-          </ul>
           <Container>
-            <ContentWrapper content={content} />
+          <PostTranslations translations={translations}></PostTranslations>
+            <ContentWrapper content={content} >
+            </ContentWrapper>
           </Container>
         </>
       </Main>

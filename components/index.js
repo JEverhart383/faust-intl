@@ -14,3 +14,4 @@ export { Hero } from './Hero';
 export { Post } from './Post';
 export { SEO } from './SEO';
 export { SearchForm } from './SearchForm';
+export { PostTranslations } from './PostTranslations';
