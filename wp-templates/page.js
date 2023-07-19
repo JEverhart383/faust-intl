@@ -15,6 +15,8 @@ import {
 } from '../components';
 import { useRouter } from "next/router";
 import  Link  from  'next/link';
+import { WordPressBlocksViewer } from '@faustwp/blocks';
+import { flatListToHierarchical } from '@faustwp/core';
  
 export default function Component(props) {
   const { locale: activeLocale, locales } = useRouter();
@@ -28,7 +30,10 @@ export default function Component(props) {
     props?.data?.generalSettings;
   const primaryMenu = props?.data?.headerMenuItems?.nodes ?? [];
   const footerMenu = props?.data?.footerMenuItems?.nodes ?? [];
-  const { title, content, featuredImage, translations } = props?.data?.page ?? { title: '' };
+  const { title, content, featuredImage, translations, editorBlocks } = props?.data?.page ?? { title: '' };
+  console.log(editorBlocks)
+  const blocks = flatListToHierarchical(editorBlocks, {idKey: 'clientId', parentKey: 'clientParentId'});
+  console.log(blocks)
 
   return (
     <>
@@ -47,7 +52,8 @@ export default function Component(props) {
           <EntryHeader title={title} image={featuredImage?.node} />
           <Container>
             <PostTranslations translations={translations}></PostTranslations>
-            <ContentWrapper content={content} />
+            <WordPressBlocksViewer blocks={blocks}></WordPressBlocksViewer>
+            {/* <ContentWrapper content={content} /> */}
           </Container>
         </>
       </Main>
@@ -86,6 +92,12 @@ Component.query = gql`
     page(id: $databaseId, idType: DATABASE_ID, asPreview: $asPreview) {
       title
       content
+      editorBlocks {
+        name
+        renderedHtml
+        clientId
+        parentClientId
+      }
       translations {
         uri
         language {
