@@ -31,9 +31,7 @@ export default function Component(props) {
   const primaryMenu = props?.data?.headerMenuItems?.nodes ?? [];
   const footerMenu = props?.data?.footerMenuItems?.nodes ?? [];
   const { title, content, featuredImage, translations, editorBlocks } = props?.data?.page ?? { title: '' };
-  console.log(editorBlocks)
   const blocks = flatListToHierarchical(editorBlocks, {idKey: 'clientId', parentKey: 'clientParentId'});
-  console.log(blocks)
 
   return (
     <>

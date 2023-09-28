@@ -11,7 +11,7 @@ export class LocaleTemplatePlugin {
             console.log(context)
             return gql`
               query GetNodeByUri(
-                $id: ID = 0
+                $id: ID! = 0
                 $uri: String = ""
                 $asPreview: Boolean = false
               ) {
