@@ -13,4 +13,5 @@ export default setConfig({
   ],
   experimentalToolbar: true,
   possibleTypes,
+  usePersistedQueries: true
 });

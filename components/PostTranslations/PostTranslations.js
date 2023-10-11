@@ -12,7 +12,7 @@ export default function PostTranslations({translations}){
         {
             translations.map(translation => {
                 return (
-                    <li>
+                    <li key={translation.language.code}>
                         <Link href={translation.uri} locale={translation.language.code.toLowerCase()}>
                         <a>{translationText[translation.language.code.toLowerCase()]}</a>
                         </Link>

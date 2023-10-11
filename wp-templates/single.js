@@ -13,7 +13,6 @@ import {
   SEO,
   PostTranslations,
 } from '../components';
-import Link from 'next/link';
 
 export default function Component(props) {
   // Loading state for previews

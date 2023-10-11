@@ -13,13 +13,10 @@ import {
   SEO,
   PostTranslations
 } from '../components';
-import { useRouter } from "next/router";
-import  Link  from  'next/link';
 import { WordPressBlocksViewer } from '@faustwp/blocks';
 import { flatListToHierarchical } from '@faustwp/core';
  
 export default function Component(props) {
-  const { locale: activeLocale, locales } = useRouter();
 
   // Loading state for previews
   if (props.loading) {
@@ -67,13 +64,11 @@ Component.variables = ({databaseId, language}, ctx) => {
     'ES' : MENUS.PRIMARY_ES,
     'DE' : MENUS.PRIMARY_DE
   }
-  const translatedLanguage = ctx?.locale === 'en' ? 'ES' : 'EN';
   return {
     databaseId,
     headerLocation: menuLocations[language.code],
     footerLocation: MENUS.FOOTER_LOCATION,
-    asPreview: ctx?.asPreview,
-    language: translatedLanguage
+    asPreview: ctx?.asPreview
   };
 };
 

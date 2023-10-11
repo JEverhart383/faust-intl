@@ -11,9 +11,12 @@ import {
   NavigationMenu,
   FeaturedImage,
   SEO,
+  PostTranslations
 } from '../components';
 import { useRouter } from "next/router";
 import  Link  from  'next/link';
+import { WordPressBlocksViewer } from '@faustwp/blocks';
+import { flatListToHierarchical } from '@faustwp/core';
  
 export default function Component(props) {
   const { locale: activeLocale, locales } = useRouter();
@@ -27,8 +30,8 @@ export default function Component(props) {
     props?.data?.generalSettings;
   const primaryMenu = props?.data?.headerMenuItems?.nodes ?? [];
   const footerMenu = props?.data?.footerMenuItems?.nodes ?? [];
-  const { title, content, featuredImage, translation } = props?.data?.page ?? { title: '' };
-
+  const { title, content, featuredImage, translations, editorBlocks } = props?.data?.page ?? { title: '' };
+  const blocks = flatListToHierarchical(editorBlocks, {idKey: 'clientId', parentKey: 'clientParentId'});
 
   return (
     <>
@@ -43,27 +46,12 @@ export default function Component(props) {
         menuItems={primaryMenu}
       />
       <Main>
-      <ul>
-          {activeLocale === 'en' ? (
-              <li>
-                <Link href={translation.uri} locale={'es'}>
-                  <a>ES</a>
-                </Link>
-              </li>
-              ) :
-              (
-                <li>
-                  <Link href={translation.uri} locale={'en'}>
-                    <a>EN</a>
-                  </Link>
-                </li>
-                )
-          }
-      </ul>
         <>
-          <EntryHeader title={`${title} en Español`} image={featuredImage?.node} />
+          <EntryHeader title={title} image={featuredImage?.node} />
           <Container>
-            <ContentWrapper content={content} />
+            <PostTranslations translations={translations}></PostTranslations>
+            <WordPressBlocksViewer blocks={blocks}></WordPressBlocksViewer>
+            {/* <ContentWrapper content={content} /> */}
           </Container>
         </>
       </Main>
@@ -72,12 +60,17 @@ export default function Component(props) {
   );
 }
 
-Component.variables = ({ databaseId }, ctx) => {
+Component.variables = ({databaseId, language}, ctx) => {
+
+  const menuLocations = {
+    'EN' : MENUS.PRIMARY_LOCATION,
+    'ES' : MENUS.PRIMARY_ES,
+    'DE' : MENUS.PRIMARY_DE
+  }
   const translatedLanguage = ctx?.locale === 'en' ? 'ES' : 'EN';
-  const localizedMenu = ctx?.locale === 'en' ? MENUS.PRIMARY_LOCATION : MENUS.PRIMARY_ES;
   return {
     databaseId,
-    headerLocation: localizedMenu,
+    headerLocation: menuLocations[language.code],
     footerLocation: MENUS.FOOTER_LOCATION,
     asPreview: ctx?.asPreview,
     language: translatedLanguage
@@ -93,13 +86,21 @@ Component.query = gql`
     $headerLocation: MenuLocationEnum
     $footerLocation: MenuLocationEnum
     $asPreview: Boolean = false
-    $language: LanguageCodeEnum!
   ) {
     page(id: $databaseId, idType: DATABASE_ID, asPreview: $asPreview) {
       title
       content
-      translation(language: $language) {
+      editorBlocks {
+        name
+        renderedHtml
+        clientId
+        parentClientId
+      }
+      translations {
         uri
+        language {
+          code
+        }
       }
       ...FeaturedImageFragment
     }

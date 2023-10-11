@@ -5,7 +5,6 @@ export default function Page(props) {
 }
 
 export function getStaticProps(ctx) {
-  console.log(ctx)
   return getWordPressProps({ ctx, revalidate: 1});
 }
 
