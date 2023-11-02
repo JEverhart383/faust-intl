@@ -34,11 +34,11 @@ export default function Component(props) {
         <Container>
           <Hero title={'Front Page'} />
           <div className="text-center">
-            <p>Thanks for visiting Faust.js International. Do you need our posts in another language?</p>
+            <p>Thanks for visiting Home Decor Intl. Do you need our posts in another language?</p>
             <ul>
-            <a href='/' ><li>🇺🇸 English</li></a>
-             <a href='/es'><li>🇪🇸 Español</li></a>
-             <a href='/de' ><li>🇩🇪 Deutsch</li></a>
+            <li><a href='/' >🇺🇸 English</a></li>
+            <li><a href='/es'>🇪🇸 Español</a></li>
+            <li><a href='/de' >🇩🇪 Deutsch</a></li>
             </ul>
             <h3>Recent Posts</h3>
             {

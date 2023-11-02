@@ -48,7 +48,6 @@ export default function Component(props) {
           <Container>
             <PostTranslations translations={translations}></PostTranslations>
             <WordPressBlocksViewer blocks={blocks}></WordPressBlocksViewer>
-            {/* <ContentWrapper content={content} /> */}
           </Container>
         </>
       </Main>

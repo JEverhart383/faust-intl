@@ -2,7 +2,7 @@
 
 .component {
 	color: var(--wpe--header--color);
-	background-color: var(--wpe--header--background-color);
+	background-color: rgb(183, 141, 113);
 	position: relative;
 	z-index: 2; // Pull dropdown menus to the foreground to sit above <Main />.
 }
