@@ -7,7 +7,8 @@
     "build": "faust build",
     "generate": "faust generatePossibleTypes",
     "start": "faust start",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "blockset" : "faust blockset"
   },
   "dependencies": {
     "@apollo/client": "^3.6.6",
@@ -24,6 +25,8 @@
     "sass": "^1.54.9"
   },
   "devDependencies": {
+    "@faustwp/block-editor-utils": "^0.0.5",
+    "@wordpress/scripts": "^26.16.0",
     "cypress": "^12.9.0"
   }
 }
