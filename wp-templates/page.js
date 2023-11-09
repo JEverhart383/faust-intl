@@ -15,6 +15,7 @@ import {
 } from '../components';
 import { WordPressBlocksViewer } from '@faustwp/blocks';
 import { flatListToHierarchical } from '@faustwp/core';
+import GET_PAGE from '../queries/test';
  
 export default function Component(props) {
 
@@ -71,45 +72,47 @@ Component.variables = ({databaseId, language}, ctx) => {
   };
 };
 
-Component.query = gql`
-  ${BlogInfoFragment}
-  ${NavigationMenu.fragments.entry}
-  ${FeaturedImage.fragments.entry}
-  query GetPageData(
-    $databaseId: ID!
-    $headerLocation: MenuLocationEnum
-    $footerLocation: MenuLocationEnum
-    $asPreview: Boolean = false
-  ) {
-    page(id: $databaseId, idType: DATABASE_ID, asPreview: $asPreview) {
-      title
-      content
-      editorBlocks {
-        name
-        renderedHtml
-        clientId
-        parentClientId
-      }
-      translations {
-        uri
-        language {
-          code
-        }
-      }
-      ...FeaturedImageFragment
-    }
-    generalSettings {
-      ...BlogInfoFragment
-    }
-    footerMenuItems: menuItems(where: { location: $footerLocation }) {
-      nodes {
-        ...NavigationMenuItemFragment
-      }
-    }
-    headerMenuItems: menuItems(where: { location: $headerLocation }) {
-      nodes {
-        ...NavigationMenuItemFragment
-      }
-    }
-  }
-`;
+Component.query = GET_PAGE;
+
+// Component.query = gql`
+//   ${BlogInfoFragment}
+//   ${NavigationMenu.fragments.entry}
+//   ${FeaturedImage.fragments.entry}
+//   query GetPageData(
+//     $databaseId: ID!
+//     $headerLocation: MenuLocationEnum
+//     $footerLocation: MenuLocationEnum
+//     $asPreview: Boolean = false
+//   ) {
+//     page(id: $databaseId, idType: DATABASE_ID, asPreview: $asPreview) {
+//       title
+//       content
+//       editorBlocks {
+//         name
+//         renderedHtml
+//         clientId
+//         parentClientId
+//       }
+//       translations {
+//         uri
+//         language {
+//           code
+//         }
+//       }
+//       ...FeaturedImageFragment
+//     }
+//     generalSettings {
+//       ...BlogInfoFragment
+//     }
+//     footerMenuItems: menuItems(where: { location: $footerLocation }) {
+//       nodes {
+//         ...NavigationMenuItemFragment
+//       }
+//     }
+//     headerMenuItems: menuItems(where: { location: $headerLocation }) {
+//       nodes {
+//         ...NavigationMenuItemFragment
+//       }
+//     }
+//   }
+// `;
